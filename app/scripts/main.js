@@ -40,7 +40,7 @@
   };
 
   var QRCodeManager = function(element) {
-    // var qrWorker = new Worker('scripts/jsqrcode/qrworker.js');
+    var qrWorker = new Worker('scripts/jsqrcode/qrworker.js');
 
     var root = document.getElementById(element);
     var canvas = document.getElementById("qr-canvas");
@@ -58,10 +58,10 @@
     this.detectQRCode = function(imageData, callback) {
       callback = callback || function() {};
 
-      // qrWorker.postMessage({
-      //   imageData: imageData,
-      //   test: 450
-      // });
+      qrWorker.postMessage({
+        imageData: imageData,
+        test: 450
+      });
 
       client.decode(imageData, function(result) {
         if(result !== undefined) {
