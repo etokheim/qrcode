@@ -40,6 +40,8 @@
   };
 
   var QRCodeManager = function(element) {
+    // var qrWorker = new Worker('scripts/jsqrcode/qrworker.js');
+
     var root = document.getElementById(element);
     var canvas = document.getElementById("qr-canvas");
     var qrcodeData = root.querySelector(".QRCodeSuccessDialog-data");
@@ -55,6 +57,11 @@
 
     this.detectQRCode = function(imageData, callback) {
       callback = callback || function() {};
+
+      // qrWorker.postMessage({
+      //   imageData: imageData,
+      //   test: 450
+      // });
 
       client.decode(imageData, function(result) {
         if(result !== undefined) {
@@ -191,6 +198,8 @@
       if(self.onframe) self.onframe();
 
       coordinatesHaveChanged = false;
+
+      requestAnimationFrame(captureFrame);
     };
 
     var getCamera = function(videoSource, cb) {
@@ -221,7 +230,7 @@
           
           var isSetup = setupVariables(e);
           if(isSetup) {
-            setInterval(captureFrame.bind(self), 4);
+            requestAnimationFrame(captureFrame.bind(self));
           }
           else {
             // This is just to get around the fact that the videoWidth is not
@@ -229,7 +238,7 @@
             setTimeout(function() {
               setupVariables(e);
 
-              setInterval(captureFrame.bind(self), 4);
+              requestAnimationFrame(captureFrame.bind(self));
             }, 100);
           }
 
