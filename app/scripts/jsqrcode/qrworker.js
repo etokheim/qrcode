@@ -18,13 +18,13 @@ importScripts('grid.js',
 
 
 self.onmessage = function(e) {
-	console.dir(e.data);
 	var data = e.data;
 
 	try {
 		var width = data.width;
 		var height = data.height;
 		var result = qrcode.decode(width, height, data);
+		console.dir(result);
 		postMessage(result);
 	} 
 	catch(e) {
